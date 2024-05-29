@@ -6,13 +6,14 @@ from mailchimp_marketing.api_client import ApiClientError
 # Load environment variables from .env file
 load_dotenv()
 
-# Retrieve Mailchimp API key and server prefix from environment variables
+# Retrieve Mailchimp API key, server prefix, and audience ID from environment variables
 API_KEY = os.getenv("API_KEY")
 SERVER_PREFIX = os.getenv("SERVER_PREFIX")
 AUDIENCE_ID = os.getenv("AUDIENCE_ID")
+COLUMN_SOURCE = "SRC"  # Specifying the name of the column for filtering
 
 # Define characters to segment by
-characters = [chr(i) for i in range(97, 123)] + [str(i) for i in range(10)]
+characters = [chr(i) for i in range(97, 123)] + [str(i) for i in range(0, 10)]
 
 # Function to create a segment in Mailchimp audience
 def create_segment(client, audience_id, segment_name, emails):
@@ -27,59 +28,54 @@ def create_segment(client, audience_id, segment_name, emails):
         response = client.lists.create_segment(audience_id, segment)
 
         print(f"Segment '{segment_name}' created successfully.")
+        return response
 
     except ApiClientError as error:
         # Handling API client errors
         print("Error creating segment: {}".format(error.text))
 
-# Function to fetch emails based on specified criteria
-def fetch_emails_by_character(client, character):
+# Function to fetch members and filter based on the SRC field
+def fetch_unique_emails(client, audience_id, column_source, value):
     try:
-        # Define the filter criteria
-        filter_criteria = {
-            "count": 1000,
-            "fields": "members.email_address"
-        }
+        unique_emails = []
+        offset = 0
+        count = 1000
 
-        # Fetch members based on filter criteria
-        response = client.lists.get_list_members_info(AUDIENCE_ID, **filter_criteria)
+        while True:
+            # Fetching batch of members
+            response = client.lists.get_list_members_info(audience_id, count=count, offset=offset, fields="members.email_address,members.merge_fields")
 
-        # Check if the response is successful
-        if response.status_code == 200:
-            data = response.json()
-            if data.get("members", None):
-                emails = [member["email_address"] for member in data["members"] if member["email_address"].lower().startswith(character)]
-                return emails
+            if 'members' in response:
+                for member in response['members']:
+                    # Check if the SRC field matches the value
+                    if column_source in member['merge_fields'] and member['merge_fields'][column_source] == value:
+                        unique_emails.append(member['email_address'])
+
+                # Break the loop if there are no more members to fetch
+                if len(response['members']) < count:
+                    break
+
+                offset += count
             else:
-                print(f"No members found for character '{character}'.")
-                return []
-        else:
-            print(f"Failed to fetch members. Status code: {response.status_code}")
-            return []
+                break
+
+        return unique_emails
 
     except ApiClientError as error:
         # Handle API client errors
-        print(f"Error fetching emails starting with '{character}': {error.text}")
+        print(f"Error fetching members: {error.text}")
         return []
 
 # Function to check audience information
-def check_audience(client, audience_id):
+def check_audience(client, list_id):
     try:
-        # Call Mailchimp API to get information about the specified audience
-        response = client.lists.get_list(audience_id)
-
-        # Check if the response is successful
-        if response.get("id", None) == audience_id:
-            return response  # Return the audience information
-        else:
-            print("Failed to fetch audience information. Audience not found.")
-            return None
-
+        response = client.lists.get_list(list_id)
+        print("Audience Information:")
+        print(response)
+        return response
     except ApiClientError as error:
-        # Handle API client errors
-        print(f"Error fetching audience information: {error.text}")
+        print("Error: {}".format(error.text))
         return None
-
 
 # Main function
 def main():
@@ -90,22 +86,25 @@ def main():
         "server": SERVER_PREFIX
     })
 
-    # Check audience information
+    # Checking the audience information
     audience_info = check_audience(client, AUDIENCE_ID)
+    
     if audience_info:
-        print("Audience Information:")
-        print(audience_info)
-        print()
+        # Fetch unique emails with the specified criteria
+        unique_emails = fetch_unique_emails(client, AUDIENCE_ID, COLUMN_SOURCE, "NL-Batch1-A-B")
 
-        # Creating segments for each character
-        for char in characters:
-            segment_name = f"Segment-{char}"
-            emails = fetch_emails_by_character(client, char)
-            if emails:
-                create_segment(client, AUDIENCE_ID, segment_name, emails)
-
-    else:
-        print("Failed to fetch audience information. Exiting...")
+        if unique_emails:
+            # Segment the emails based on the first character
+            for char in characters:
+                # Filter emails that start with the current character
+                filtered_emails = [email for email in unique_emails if email.startswith(char)]
+                if filtered_emails:
+                    segment_name = f"Segment-NL-Batch1-A-B-{char.upper()}"
+                    create_segment(client, AUDIENCE_ID, segment_name, filtered_emails)
+                else:
+                    print(f"No emails found for segment starting with '{char}'")
+        else:
+            print("No emails found with the specified criteria.")
 
 # Running the main function if the script is executed directly
 if __name__ == "__main__":
