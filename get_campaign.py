@@ -9,9 +9,11 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
+# Retrieve API key and server prefix from environment variables
 API_KEY = os.getenv("API_KEY")
 SERVER_PREFIX = os.getenv("SERVER_PREFIX")
 
+# Ensure API_KEY and SERVER_PREFIX are provided
 if not API_KEY or not SERVER_PREFIX:
     raise ValueError("API_KEY and SERVER_PREFIX must be set in the .env file")
 
@@ -22,6 +24,7 @@ args = parser.parse_args()
 CAMPAIGN_ID = args.CAMPAIGN_ID
 
 try:
+    # Initialize Mailchimp client
     client = Client()
     client.set_config({
         "api_key": API_KEY,
@@ -39,6 +42,7 @@ try:
         json.dump(request_data, request_log_file)
         request_log_file.write('\n')
 
+    # Get information about the campaign
     response = client.campaigns.get(CAMPAIGN_ID)
     print(response)
 
@@ -49,7 +53,9 @@ try:
         json.dump(response, response_log_file, indent=4)
 
 except ApiClientError as error:
+    # Handle API client errors
     print("Error: {}".format(error.text))
+    
     # Log the error data with a timestamp
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     error_log_path = 'logs/get_campaign_error.log'
