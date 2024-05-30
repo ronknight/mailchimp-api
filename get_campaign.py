@@ -18,9 +18,7 @@ if not API_KEY or not SERVER_PREFIX:
 # Set up argument parsing
 parser = argparse.ArgumentParser(description='Get MailChimp campaign info.')
 parser.add_argument('CAMPAIGN_ID', type=str, help='The campaign ID')
-
 args = parser.parse_args()
-
 CAMPAIGN_ID = args.CAMPAIGN_ID
 
 try:
@@ -33,13 +31,13 @@ try:
     # Log the request data
     request_log_path = 'logs/get_campaign_request.json'
     request_data = {
-        "timestamp": datetime.datetime.now().strftime("%Y%m%d_%H%M%S"),
+        "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "campaign_id": CAMPAIGN_ID
     }
     os.makedirs(os.path.dirname(request_log_path), exist_ok=True)
     with open(request_log_path, 'a') as request_log_file:
         json.dump(request_data, request_log_file)
-        request_log_file.write(',\n')
+        request_log_file.write('\n')
 
     response = client.campaigns.get(CAMPAIGN_ID)
     print(response)
@@ -53,7 +51,7 @@ try:
 except ApiClientError as error:
     print("Error: {}".format(error.text))
     # Log the error data with a timestamp
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    error_log_path = f'logs/get_campaign_error_{timestamp}.json'
-    with open(error_log_path, 'w') as error_log_file:
-        json.dump({"error": error.text}, error_log_file, indent=4)
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    error_log_path = 'logs/get_campaign_error.log'
+    with open(error_log_path, 'a') as error_log_file:
+        error_log_file.write(f"{timestamp}: {error.text}\n")

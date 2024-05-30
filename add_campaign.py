@@ -71,7 +71,7 @@ try:
 except ApiClientError as error:
     print("Error: {}".format(error.text))
     # Log the error data with a timestamp
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    error_log_path = f'logs/add_campaign_error_{timestamp}.json'
-    with open(error_log_path, 'w') as error_log_file:
-        json.dump({"error": error.text}, error_log_file, indent=4)
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    error_log_path = 'logs/add_campaign_error.log'
+    with open(error_log_path, 'a') as error_log_file:
+        error_log_file.write(f"{timestamp}: {error.text}\n")
