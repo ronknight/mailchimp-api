@@ -40,11 +40,11 @@ python get_campaign.py CAMPAIGN_ID
 Replace CAMPAIGN_ID with the ID of the campaign you want to retrieve.
 
 2. add_segment.py
-This script creates a new MailChimp segment based on the provided letter. It appends the letter to the segment name and condition value, and logs the request and response data in the logs directory.
+This script creates a new MailChimp segment based on the provided batch and letter. It appends the batch name and letter to the segment name and condition value, and logs the request and response data in the logs directory.
 
 Usage:
 ```bash
-python add_segment.py LETTER
+python add_segment.py BATCHNAME LETTER
 ```
 Replace LETTER with the letter you want to append to the segment name and condition value.
 
