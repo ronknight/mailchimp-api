@@ -23,6 +23,7 @@ if not API_KEY or not SERVER_PREFIX or not LIST_ID:
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description='Append a letter to the segment name and condition value.')
+parser.add_argument('batch_name', help='Base name of the segment and ')
 parser.add_argument('letter', help='Letter to append to the segment name and condition value')
 args = parser.parse_args()
 
@@ -36,7 +37,7 @@ try:
 
     # Prepare segment data with the provided letter
     segment_data = {
-        "name": f"NL-Batch1-A-B-{args.letter}",  # Append the letter to the segment name
+        "name": f"{args.batch_name}-{args.letter}",  # Append the letter to the segment name
         "options": {
             "match": "all",
             "conditions": [
@@ -44,7 +45,7 @@ try:
                     "condition_type": "TextMerge",
                     "field": "SRC",
                     "op": "is",
-                    "value": "NL-Batch1-A-B"
+                    "value": args.batch_name #batch name
                 },
                 {
                     "condition_type": "EmailAddress",
