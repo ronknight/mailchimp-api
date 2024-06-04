@@ -22,8 +22,12 @@ if not API_KEY or not SERVER_PREFIX or not LIST_ID:
     raise ValueError("API_KEY, SERVER_PREFIX, and LIST_ID must be set in the .env file")
 
 # Parse command-line arguments
-parser = argparse.ArgumentParser(description='Use batch name as segment name.')
-parser.add_argument('batch_name', help='Base name of the segment')
+parser = argparse.ArgumentParser(description='Append a letter to the segment name and condition value.')
+parser.add_argument('batch_name', help='Base name of the segment and ')
+parser.add_argument('greater', help='Starting character to append to the segment name and condition value')
+parser.add_argument('less', help='ending character to append to the segment name and condition value')
+parser.add_argument('part', help='Chunk name to append to the segment name and condition value')
+
 args = parser.parse_args()
 
 try:
@@ -36,7 +40,7 @@ try:
 
     # Prepare segment data with the provided letter
     segment_data = {
-        "name": f"{args.batch_name}",  # Append the letter to the segment name
+        "name": f"{args.batch_name}-{args.part}",  # Append the letter to the segment name
         "options": {
             "match": "all",
             "conditions": [
@@ -45,13 +49,25 @@ try:
                     "field": "SRC",
                     "op": "is",
                     "value": args.batch_name #batch name
+                },
+                {
+                    "condition_type": "EmailAddress",
+                    "field": "EMAIL",
+                    "op": "greater",
+                    "value": args.greater  # Append the letter to the condition value
+                },
+                                {
+                    "condition_type": "EmailAddress",
+                    "field": "EMAIL",
+                    "op": "less",
+                    "value": args.less  # Append the letter to the condition value
                 }
             ]
         }
     }
 
     # Log the request data
-    request_log_path = 'logs/add_segment_request.json'
+    request_log_path = 'logs/add_segment_range_request.json'
     with open(request_log_path, 'a') as request_log_file:
         json.dump(segment_data, request_log_file, indent=4)
         request_log_file.write('\n')
@@ -62,7 +78,7 @@ try:
 
     # Log the response data with a timestamp
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    response_log_path = f'logs/add_segment_response_{timestamp}.json'
+    response_log_path = f'logs/add_segment_range_response_{timestamp}.json'
     with open(response_log_path, 'w') as response_log_file:
         json.dump(response, response_log_file, indent=4)
 
@@ -72,6 +88,6 @@ except ApiClientError as error:
     
     # Log the error data with a timestamp
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    error_log_path = f'logs/add_segment_error_{timestamp}.json'
+    error_log_path = f'logs/add_segment_range_error_{timestamp}.json'
     with open(error_log_path, 'w') as error_log_file:
         json.dump({"error": error.text}, error_log_file, indent=4)
