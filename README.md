@@ -61,7 +61,7 @@ Usage:
 ```bash
 python get_campaign.py CAMPAIGN_ID
 ```
-Replace CAMPAIGN_ID with the ID of the campaign you want to retrieve.
+Replace CAMPAIGN_ID with the ID of the campaign you want to retrieve. You can get the CAMPAIGN_ID if you don't have it from the campaign url, it is the value of parameter "id".
 
 ### `add_segment.py`
 This script creates a new segment in the specified Mailchimp audience based on the provided batch name.
