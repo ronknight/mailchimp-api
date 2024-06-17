@@ -1,12 +1,31 @@
 <p><a target="_blank" href="https://app.eraser.io/workspace/Lh3VRw97MxtTtBm1XpZd" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
 
-# MailChimp API Scripts
-This repository contains three Python scripts that interact with the MailChimp API to perform various tasks related to campaigns and segments.
+<h1 align="center"><a href="https://github.com/ronknight/get-saved-wifi-password">MailChimp API Scripts</a></h1>
+<h4 align="center">This repository contains three Python scripts that interact with the MailChimp API to perform various tasks related to campaigns and segments.</h4>
 
-1. `add_segment.py` 
-2. `add_segment_range.py` 
-3. `add_campaign.py` 
-4. `get_campaign.py` 
+<p align="center">
+<a href="https://twitter.com/PinoyITSolution"><img src="https://img.shields.io/twitter/follow/PinoyITSolution?style=social"></a>
+<a href="https://github.com/ronknight?tab=followers"><img src="https://img.shields.io/github/followers/ronknight?style=social"></a>
+<a href="https://github.com/ronknight/ronknight/stargazers"><img src="https://img.shields.io/github/stars/BEPb/BEPb.svg?logo=github"></a>
+<a href="https://github.com/ronknight/ronknight/network/members"><img src="https://img.shields.io/github/forks/BEPb/BEPb.svg?color=blue&logo=github"></a>
+  <a href="https://youtube.com/@PinoyITSolution"><img src="https://img.shields.io/youtube/channel/subscribers/UCeoETAlg3skyMcQPqr97omg"></a>
+<a href="https://github.com/ronknight/get-saved-wifi-password/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
+<a href="https://github.com/ronknight/get-saved-wifi-password/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+<a href="#"><img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg"></a>
+<a href="https://github.com/ronknight"><img src="https://img.shields.io/badge/Made%20with%20%F0%9F%A4%8D%20by%20-%20Ronknight%20-%20red"></a>
+</p>
+
+<p align="center">
+  <a href="#prerequisites">Prerequisites</a> •
+  <a href="#setup">Setup</a> •
+  <a href="#scripts">Scripts</a> •
+  <a href="#logs">Logs</a> •
+  <a href="#dependencies">Dependencies</a> •
+  <a href="#diagrams">Diagrams</a> •
+</p>
+
+---
+
 ## Prerequisites
 Before running these scripts, you'll need to set up the following:
 
@@ -31,6 +50,7 @@ Replace your_mailchimp_api_key, your_mailchimp_server_prefix, and your_mailchimp
 SERVER_PREFIX=your_mailchimp_server_prefix
 AUDIENCE_ID=your_mailchimp_audience_id
 3. Install the required Python packages by running:pip install -r requirements.txt
+
 ## Scripts
 ### `get_campaign.py` 
 This script retrieves information about a specific MailChimp campaign. It logs the request and response data in the logs directory.
@@ -96,10 +116,6 @@ The scripts use the following Python packages:
 - `mailchimp_marketing` : Mailchimp Marketing API client library
 - `python-dotenv` : Loads environment variables from a `.env`  file
 These dependencies are listed in the `requirements.txt` file and will be installed automatically when running `pip install -r requirements.txt`.
-
-## License
-This project is licensed under the MIT License.
-
 
 <!-- eraser-additional-content -->
 ## Diagrams
