@@ -1,0 +1,52 @@
+flowchart-diagram
+
+title MailChimp API Scripts Flowchart
+
+// Prerequisites
+Start [shape: oval, label: Start] > Check Python Installation [shape: rectangle, label: "Check Python 3.x Installed"]
+Check Python Installation > Install Mailchimp Marketing Library [shape: rectangle, label: "pip install mailchimp-marketing"]
+Install Mailchimp Marketing Library > Install Python Dotenv Library [shape: rectangle, label: "pip install python-dotenv"]
+Install Python Dotenv Library > Create .env File [shape: rectangle, label: "Create .env File with API_KEY, SERVER_PREFIX, AUDIENCE_ID"]
+
+// Setup
+Create .env File > Clone Repository [shape: rectangle, label: "Clone Repository or Download Code Files"]
+Clone Repository > Install Required Packages [shape: rectangle, label: "pip install -r requirements.txt"]
+
+// Scripts
+Install Required Packages > Choose Script to Run [shape: diamond, label: "Choose Script to Run"]
+
+// get_campaign.py
+Choose Script to Run > Get Campaign [shape: rectangle, label: "get_campaign.py"]
+Get Campaign > Input Campaign ID [shape: rectangle, label: "Input CAMPAIGN_ID"]
+Input Campaign ID > Retrieve Campaign Info [shape: rectangle, label: "Retrieve Campaign Info"]
+Retrieve Campaign Info > Log Request and Response [shape: rectangle, label: "Log Request and Response Data"]
+Log Request and Response > End [shape: oval, label: End]
+
+// add_segment.py
+Choose Script to Run > Add Segment [shape: rectangle, label: "add_segment.py"]
+Add Segment > Input Batch Name [shape: rectangle, label: "Input batch_name"]
+Input Batch Name > Create New Segment [shape: rectangle, label: "Create New Segment in Audience"]
+Create New Segment > Log Request and Response [shape: rectangle, label: "Log Request and Response Data"]
+Log Request and Response > End
+
+// add_segment_range.py
+Choose Script to Run > Add Segment Range [shape: rectangle, label: "add_segment_range.py"]
+Add Segment Range > Input Segment Range Details [shape: rectangle, label: "Input batch_name, greater, less, part"]
+Input Segment Range Details > Create New Segment Range [shape: rectangle, label: "Create New Segment in Audience"]
+Create New Segment Range > Log Request and Response [shape: rectangle, label: "Log Request and Response Data"]
+Log Request and Response > End
+
+// add_campaign.py
+Choose Script to Run > Add Campaign [shape: rectangle, label: "add_campaign.py"]
+Add Campaign > Create New Campaign [shape: rectangle, label: "Create New Campaign with Specific Settings"]
+Create New Campaign > Log Request and Response [shape: rectangle, label: "Log Request and Response Data"]
+Log Request and Response > End
+
+// Logs
+Log Request and Response > Create Log Files [shape: rectangle, label: "Create Log Files in logs Directory"]
+Create Log Files > End
+
+// Dependencies
+Install Required Packages > Install Dependencies [shape: rectangle, label: "Install Dependencies from requirements.txt"]
+Install Dependencies > End
+
