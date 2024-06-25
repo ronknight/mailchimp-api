@@ -118,7 +118,7 @@ The scripts use the following Python packages:
 - `python-dotenv` : Loads environment variables from a `.env`  file
 These dependencies are listed in the `requirements.txt` file and will be installed automatically when running `pip install -r requirements.txt`.
 
-## Environment Variables
+## Environment
 
 This project requires the following environment variables:
 
