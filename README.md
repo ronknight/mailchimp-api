@@ -21,6 +21,7 @@
   <a href="#scripts">Scripts</a> •
   <a href="#logs">Logs</a> •
   <a href="#dependencies">Dependencies</a> •
+  <a href="#environment">Environment</a> •
   <a href="#diagrams">Diagrams</a> •
 </p>
 
