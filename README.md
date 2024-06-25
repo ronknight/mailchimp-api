@@ -117,6 +117,17 @@ The scripts use the following Python packages:
 - `python-dotenv` : Loads environment variables from a `.env`  file
 These dependencies are listed in the `requirements.txt` file and will be installed automatically when running `pip install -r requirements.txt`.
 
+## Environment Variables
+
+This project requires the following environment variables:
+
+```bash
+API_KEY=Your_API_key_for_the_service
+SERVER_PREFIX=The_server_prefix
+AUDIENCE_ID=The_audience_ID_for_NewLeads
+LIST_ID=The_list_ID_for_NL-Batch1-A-B-a
+```
+
 <!-- eraser-additional-content -->
 ## Diagrams
 <!-- eraser-additional-files -->
